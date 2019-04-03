@@ -66,10 +66,9 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
         String where = "NW";
 
-        if (mAzimuth >= 350 || mAzimuth <= 10)
+        if (mAzimuth >= 350 || mAzimuth <= 10){
             where = "N";
-            playSound();
-
+            playSound();}
         if (mAzimuth < 350 && mAzimuth > 280)
             where = "NW";
         if (mAzimuth <= 280 && mAzimuth > 260)
@@ -142,7 +141,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     public void playSound(){
         if(mp == null){
-            mp = MediaPlayer.create(this, R.raw.horn);
+            mp = MediaPlayer.create(this, R.raw.wow);
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
