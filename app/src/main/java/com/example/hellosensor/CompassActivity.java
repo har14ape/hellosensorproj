@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 public class CompassActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -26,6 +27,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     private float[] mLastMagnetometer = new float[3];
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,8 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
         if (mAzimuth >= 350 || mAzimuth <= 10)
             where = "N";
+            playSound();
+
         if (mAzimuth < 350 && mAzimuth > 280)
             where = "NW";
         if (mAzimuth <= 280 && mAzimuth > 260)
@@ -134,6 +138,25 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     protected void onPause() {
         super.onPause();
         stop();
+    }
+
+    public void playSound(){
+        if(mp == null){
+            mp = MediaPlayer.create(this, R.raw.horn);
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    stopPlayer();
+                }
+            });
+        }
+        mp.start();
+    }
+    public void stopPlayer(){
+        if(mp != null){
+            mp.release();
+            mp = null;
+        }
     }
 
     @Override
